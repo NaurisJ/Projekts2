@@ -23,12 +23,24 @@ data-bs-target="#navbarNav">
 </button>
 <div class="collapse navbar-collapse" id="navbarNav">
 <ul class="navbar-nav">
+@if(Auth::check())
 <li class="nav-item">
 <a class="nav-link" href="/">Home</a>
 </li>
 <li class="nav-item">
 <a class="nav-link" href="/manufacturers">Manufacturers</a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="/logout">Log Out</a>
+</li>
+@else
+<li>
+    <a class="nav-link" href="/">Home</a>
+</li>
+<li>
+    <a class="nav-item" href="/login">Authenticate</a>
+</li>
+@endif
 </ul>
 </div>
 </div>
