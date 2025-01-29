@@ -33,6 +33,9 @@ data-bs-target="#navbarNav">
 <li class="nav-item">
     <a class="nav-link" href="/logout">Log Out</a>
 </li>
+<li class="nav-item">
+ <a class="nav-link" href="/cars">Cars</a>
+</li>
 @else
 <li>
     <a class="nav-link" href="/">Home</a>
