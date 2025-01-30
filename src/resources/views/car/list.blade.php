@@ -1,53 +1,50 @@
 @extends('layout')
+
 @section('content')
 <h1>{{ $title }}</h1>
+
 @if (count($items) > 0)
- <table class="table table-sm table-hover table-striped">
- <thead class="thead-light">
- <tr>
- <th>ID</th>
- <th>Name</th>
- <th>Author</th>
- <th>Year</th>
- <th>Price</th>
- <th>Published</th>
- <th>&nbsp;</th>
- </tr>
- </thead>
- <tbody>
- @foreach($items as $book)
- <tr>
- <td>{{ $car->id }}</td>
- <td>{{ $car->name }}</td>
- <td>{{ $car->manufacturer->name }}</td>
- <td>{{ $car->year }}</td>
- <!-- <td>&euro; {{ number_format($car->price, 2, '.') }}</td> -->
- <td>{!! $car->on_the_road ? '&#x2714;' : '&#x274C;' !!}</td>
- <td>
- <a
- href="/cars/update/{{ $car->id }}"
- class="btn btn-outline-primary btn-sm"
- >Edit</a> /
-33 / 81
-K. Immers, VeA, 2025-01
- <form
- method="post"
- action="/cars/delete/{{ $car->id }}"
- class="d-inline deletion-form"
- >
- @csrf
-<button
- type="submit"
- class="btn btn-outline-danger btn-sm"
- >Delete</button>
- </form>
- </td>
- </tr>
- @endforeach
- </tbody>
- </table>
+    <table class="table table-sm table-hover table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>On The Road</th>
+                <th>Image</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($items as $car)
+                <tr>
+                    <td>{{ $car->id }}</td>
+                    <td>{{ $car->manufacturer->name }}</td>
+                    <td>{{ $car->model }}</td>
+                    <td>{{ $car->year }}</td>
+                    <td>{!! $car->on_the_road ? '&#x2714;' : '&#x274C;' !!}</td>
+                    <td>
+                    @if ($car->image)
+        <img src="{{ asset('images/' . $car->image) }}" alt="Car Image" style="max-width: 100px;">
+    @else
+        No Image
+    @endif
+                    </td>
+                    <td>
+                        <a href="/cars/update/{{ $car->id }}" class="btn btn-outline-primary btn-sm">Edit</a> /
+                        <form method="post" action="/cars/delete/{{ $car->id }}" class="d-inline deletion-form">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @else
- <p>No entries found in database </p>
+    <p>No entries found in the database.</p>
 @endif
-<a href="/cars/create" class="btn btn-primary">Add new car</a>
+
+<a href="/cars/create" class="btn btn-primary">Add New Car</a>
 @endsection

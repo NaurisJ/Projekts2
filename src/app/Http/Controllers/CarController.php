@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller implements HasMiddleware
 {
@@ -20,10 +21,10 @@ class CarController extends Controller implements HasMiddleware
         ];
     }
 
-    // display all Books
+    // display all Cars
     public function list(): View
     {
-        $items = Car::orderBy('make', 'asc')->get();
+        $items = Car::orderBy('model', 'asc')->get();
         return view(
         'car.list',
         [
@@ -33,7 +34,7 @@ class CarController extends Controller implements HasMiddleware
         );
     }
 
-    // display new Book form
+    // display new Car form
     public function create(): View
     {
         $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
@@ -48,26 +49,97 @@ class CarController extends Controller implements HasMiddleware
     }
 
 
-    // create new Book entry
+    // create new Car entry
     public function put(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
-        'make' => 'required|min:3|max:256',
         'manufacturer_id' => 'required',
         'model' => 'nullable',
         'year' => 'numeric',
-        'image' => 'nullable|image',
+        'image' => 'nullable',
         'on_the_road' => 'nullable',
         ]);
-        $book = new Car();
-        $book->make = $validatedData['make'];
-        $book->manufacturer_id = $validatedData['manufacturer_id'];
-        $book->model = $validatedData['model'];
-        $book->year = $validatedData['year'];
-        $book->display = (bool) ($validatedData['display'] ?? false);
-        $book->save();
+        $car = new Car();
+        $car->manufacturer_id = $validatedData['manufacturer_id'];
+        $car->model = $validatedData['model'];
+        $car->year = $validatedData['year'];
+        $car->on_the_road = (bool) ($validatedData['on_the_road'] ?? false);
+        if ($request->hasFile('image')) {
+            // here you can add code that deletes old image file when new one is uploaded
+             $uploadedFile = $request->file('image');
+             $extension = $uploadedFile->clientExtension();
+             $name = uniqid();
+            //  $car->image = $uploadedFile->storePubliclyAs(
+            //  '/',
+            //  $name . '.' . $extension,
+            //  'uploads'
+            //  );
+            // This worked for me because this code accesses public/images directory
+            $uploadedFile->move(public_path('images'), $name . '.' . $extension);
+            $car->image = $name . '.' . $extension;
+            }
+        $car->save();
         return redirect('/cars');
     }
+
+    // display Car edit form
+    public function update(Car $car): View
+    {
+        $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
+        return view(
+        'car.form',
+        [
+        'title' => 'Edit info',
+        'car' => $car,
+        'manufacturers' => $manufacturers,
+        ]
+        );
+        }
+        // update Car data
+        public function patch(Car $car, Request $request): RedirectResponse
+        {
+        $validatedData = $request->validate([
+            'manufacturer_id' => 'required',
+            'model' => 'nullable',
+            'year' => 'numeric',
+            'image' => 'nullable',
+            'on_the_road' => 'nullable',
+        ]);
+        $car->manufacturer_id = $validatedData['manufacturer_id'];
+        $car->model = $validatedData['model'];
+        $car->year = $validatedData['year'];
+        $car->on_the_road = (bool) ($validatedData['on_the_road'] ?? false);
+        if ($request->hasFile('image')) {
+            // here you can add code that deletes old image file when new one is uploaded
+             $uploadedFile = $request->file('image');
+             $extension = $uploadedFile->clientExtension();
+             $name = uniqid();
+            //  $car->image = $uploadedFile->storePubliclyAs(
+            //  '/',
+            //  $name . '.' . $extension,
+            //  'uploads'
+            //  );
+
+
+            // This worked for me because this code accesses public/images directory
+            $uploadedFile->move(public_path('images'), $name . '.' . $extension);
+            $car->image = $name . '.' . $extension;
+            }
+        $car->save();
+        return redirect('/cars/update/' . $car->id);
+    }
+
+    public function delete(Car $car): RedirectResponse
+    {
+        if ($car->image) {
+            unlink(getcwd() . '/images/' . $car->image);
+            }
+            
+        $car->delete();
+        return redirect('/cars');
+    }
+
+
 
 
 }

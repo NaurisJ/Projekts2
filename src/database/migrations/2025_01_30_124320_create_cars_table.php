@@ -16,11 +16,10 @@ return new class extends Migration
             $table->foreignId('manufacturer_id');
             // $table->foreignId('owner_id');
             // $table->foreignId('category_id');
-            $table->string('make', 256);
             $table->string('model', 256);
             $table->integer('year');
-            $table->boolean('on_the_road')->default(true);
             $table->string('image', 256)->nullable();
+            $table->boolean('on_the_road')->default(true);
             $table->timestamps();
 
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers');
