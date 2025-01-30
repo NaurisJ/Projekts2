@@ -16,7 +16,7 @@ crossorigin="anonymous">
 <header class="container">
 <nav class="navbar navbar-expand-md bg-primary mb-3" data-bs-theme="dark">
 <div class="container">
-<span class="navbar-brand mb-0 h1">Car Shop</span>
+<span class="navbar-brand mb-0 h1">Car Tracking</span>
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 data-bs-target="#navbarNav">
 <span class="navbar-toggler-icon"></span>
@@ -30,12 +30,16 @@ data-bs-target="#navbarNav">
 <li class="nav-item">
 <a class="nav-link" href="/manufacturers">Manufacturers</a>
 </li>
-<li class="nav-item">
-    <a class="nav-link" href="/logout">Log Out</a>
 </li>
 <li class="nav-item">
  <a class="nav-link" href="/cars">Cars</a>
 </li>
+</li>
+<li class="nav-item">
+ <a class="nav-link" href="/types">Types</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/logout">Log Out</a>
 @else
 <li>
     <a class="nav-link" href="/">Home</a>

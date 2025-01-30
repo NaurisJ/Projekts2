@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('manufacturer_id');
-            // $table->foreignId('owner_id');
-            // $table->foreignId('category_id');
+            $table->foreignId('type_id');
             $table->string('model', 256);
             $table->integer('year');
             $table->string('image', 256)->nullable();
@@ -23,8 +22,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers');
-            // $table->foreign('owner_id')->references('id')->on('owners');
-            // $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('type_id')->references('id')->on('types');
+            // $table->foreign('car_id')->references('id')->on('cars');
+            // $table->foreign('type_id')->references('id')->on('type_id');
         });
     }
 

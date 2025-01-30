@@ -23,10 +23,11 @@ class CarRequest extends FormRequest
     {
         return [
             'manufacturer_id' => 'required',
-            'model' => 'nullable',
-            'year' => 'numeric',
+            'model' => 'required|nullable',
+            'year' => 'required|numeric|min:1900',
             'image' => 'nullable',
-            'on_the_road' => 'nullable',
+            'on_the_road' => 'boolean',
+            'type_id' => 'required',
             
         ];
     }

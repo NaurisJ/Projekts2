@@ -11,7 +11,8 @@
                 <th>Manufacturer</th>
                 <th>Model</th>
                 <th>Year</th>
-                <th>On The Road</th>
+                <th>MOT</th>
+                <th>Type</th>
                 <th>Image</th>
                 <th>&nbsp;</th>
             </tr>
@@ -24,6 +25,7 @@
                     <td>{{ $car->model }}</td>
                     <td>{{ $car->year }}</td>
                     <td>{!! $car->on_the_road ? '&#x2714;' : '&#x274C;' !!}</td>
+                    <td>{{ $car->type->name }}</td>
                     <td>
                     @if ($car->image)
         <img src="{{ asset('images/' . $car->image) }}" alt="Car Image" style="max-width: 100px;">

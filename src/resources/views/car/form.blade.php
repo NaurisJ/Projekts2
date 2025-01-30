@@ -48,12 +48,28 @@
     <div class="mb-3">
         <div class="form-check">
             <input type="checkbox" id="car-on_the_road" name="on_the_road" value="1" class="form-check-input @error('on_the_road') is-invalid @enderror" @if (old('on_the_road', $car->on_the_road)) checked @endif>
-            <label class="form-check-label" for="car-on_the_road">On The Road</label>
+            <label class="form-check-label" for="car-on_the_road">MOT</label>
             @error('on_the_road')
                 <p class="invalid-feedback">{{ $errors->first('on_the_road') }}</p>
             @enderror
         </div>
     </div>
+
+    <!-- Type Dropdown -->
+    <div class="mb-3">
+    <label for="car-type" class="form-label">Type</label>
+    <select id="car-type" name="type_id" class="form-select @error('type_id') is-invalid @enderror">
+        <option value="">Choose the type!</option>
+        @foreach($types as $type)
+            <option value="{{ $type->id }}" @if ($type->id == old('type_id', $car->type_id)) selected @endif>
+                {{ $type->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('type_id')
+        <p class="invalid-feedback">{{ $errors->first('type_id') }}</p>
+    @enderror
+</div>
 
     <!-- Image Input -->
     <div class="mb-3">
@@ -84,6 +100,7 @@
     <!-- Submit Button -->
     <button type="submit" class="btn btn-primary">
         {{ $car->exists ? 'Update' : 'Create' }}
+        
     </button>
 </form>
 @endsection

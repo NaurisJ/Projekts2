@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Manufacturer;
 use App\Models\Car;
+use App\Models\Type;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,6 +40,7 @@ class CarController extends Controller implements HasMiddleware
     // display new Car form
     public function create(): View
     {
+        $types = Type::all();
         $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
         return view(
         'car.form',
@@ -46,6 +48,7 @@ class CarController extends Controller implements HasMiddleware
         'title' => 'Add new car',
         'car' => new Car(),
         'manufacturers' => $manufacturers,
+        'types' => $types,
         ]
         );
     }
@@ -56,10 +59,10 @@ class CarController extends Controller implements HasMiddleware
 
 
             $car->fill($validatedData);
-            $car->manufacturer_id = $validatedData['manufacturer_id'];
-            $car->model = $validatedData['model'];
-            $car->year = $validatedData['year'];
-            $car->on_the_road = (bool) ($validatedData['on_the_road'] ?? false);
+            // $car->manufacturer_id = $validatedData['manufacturer_id'];
+            // $car->model = $validatedData['model'];
+            // $car->year = $validatedData['year'];
+            // $car->on_the_road = (bool) ($validatedData['on_the_road'] ?? false);
 
 
         
@@ -92,6 +95,7 @@ class CarController extends Controller implements HasMiddleware
     // display Car edit form
     public function update(Car $car): View
     {
+        $types = Type::all();
         $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
         return view(
         'car.form',
@@ -99,6 +103,7 @@ class CarController extends Controller implements HasMiddleware
         'title' => 'Edit info',
         'car' => $car,
         'manufacturers' => $manufacturers,
+        'types' => $types,
         ]
         );
         }

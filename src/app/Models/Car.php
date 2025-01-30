@@ -11,11 +11,17 @@ class Car extends Model
         'manufacturer_id',
         'model',
         'year',
+        'type_id',
         ];
         
 
     public function manufacturer(): BelongsTo
     {
         return $this->belongsTo(Manufacturer::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
     }
 }
