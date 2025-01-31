@@ -6,6 +6,7 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\DataController;
 
 
 
@@ -42,3 +43,9 @@ Route::get('/types/update/{type}', [TypeController::class, 'update']);
 Route::post('/types/patch/{type}', [TypeController::class, 'patch']);
 
 Route::post('/types/delete/{type}', [TypeController::class, 'delete']);
+
+
+// Data/API
+Route::get('/data/get-top-cars', [DataController::class, 'getTopCars']);
+Route::get('/data/get-car/{car}', [DataController::class, 'getcar']);
+Route::get('/data/get-related-cars/{car}', [DataController::class, 'getRelatedCars']);

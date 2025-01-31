@@ -46,15 +46,24 @@
 
     <!-- On The Road Checkbox -->
     <div class="mb-3">
-        <div class="form-check">
-            <input type="checkbox" id="car-on_the_road" name="on_the_road" value="1" class="form-check-input @error('on_the_road') is-invalid @enderror" @if (old('on_the_road', $car->on_the_road)) checked @endif>
-            <label class="form-check-label" for="car-on_the_road">MOT</label>
-            @error('on_the_road')
-                <p class="invalid-feedback">{{ $errors->first('on_the_road') }}</p>
-            @enderror
-        </div>
+    <div class="form-check">
+        <!-- Hidden input to ensure a value is always submitted -->
+        <input type="hidden" name="on_the_road" value="0">
+        <!-- Checkbox input -->
+        <input
+            type="checkbox"
+            id="car-on_the_road"
+            name="on_the_road"
+            value="1"
+            class="form-check-input @error('on_the_road') is-invalid @enderror"
+            @if (old('on_the_road', $car->on_the_road ?? false)) checked @endif
+        >
+        <label class="form-check-label" for="car-on_the_road">MOT</label>
+        @error('on_the_road')
+            <p class="invalid-feedback">{{ $errors->first('on_the_road') }}</p>
+        @enderror
     </div>
-
+</div>
     <!-- Type Dropdown -->
     <div class="mb-3">
     <label for="car-type" class="form-label">Type</label>
